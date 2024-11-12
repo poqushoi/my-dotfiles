@@ -4,4 +4,12 @@
 -- See the kickstart.nvim README for more information
 return {
   'mg979/vim-visual-multi',
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      local leap = require 'leap'
+      leap.create_default_mappings()
+      leap.opts.case_sensitive = true
+    end,
+  },
 }
