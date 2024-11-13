@@ -10,3 +10,6 @@ set -gx EDITOR $VISUAL
 
 # Set up fzf key bindings
 fzf --fish | source
+
+# Add local bin to path
+fish_add_path ~/bin/
