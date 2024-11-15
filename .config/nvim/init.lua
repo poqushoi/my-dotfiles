@@ -161,7 +161,7 @@ vim.opt.scrolloff = 10
 
 -- Disable wrapping by default
 -- Can be set back by `:set wrap`
-vim.opt.wrap = false
+-- vim.opt.wrap = false
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -195,6 +195,8 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+require 'custom.settings.keymaps'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -414,6 +416,8 @@ require('lazy').setup({
 
           live_grep_args = {
             auto_quoting = true, -- enable/disable auto-quoting
+            smartcase = true,
+
             -- define mappings, e.g.
             mappings = { -- extend mappings
               i = {
@@ -664,6 +668,7 @@ require('lazy').setup({
         -- Python LSPs
         pyright = {
           filetypes = { 'python' },
+          capabilities = capabilities,
         },
         black = {},
         isort = {},
@@ -731,26 +736,27 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = {
-          c = true,
-          cpp = true,
-          py = true,
-        }
-        local lsp_format_opt
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          lsp_format_opt = 'never'
-        else
-          lsp_format_opt = 'fallback'
-        end
-        return {
-          timeout_ms = 500,
-          lsp_format = lsp_format_opt,
-        }
-      end,
+      -- format_on_save = function(bufnr)
+      --   -- Disable "format_on_save lsp_fallback" for languages that don't
+      --   -- have a well standardized coding style. You can add additional
+      --   -- languages here or re-enable it for the disabled ones.
+      --   local disable_filetypes = {
+      --     c = true,
+      --     cpp = true,
+      --     -- py = true,
+      --     -- lua = true,
+      --   }
+      --   local lsp_format_opt
+      --   if disable_filetypes[vim.bo[bufnr].filetype] then
+      --     lsp_format_opt = 'never'
+      --   else
+      --     lsp_format_opt = 'fallback'
+      --   end
+      --   return {
+      --     timeout_ms = 500,
+      --     lsp_format = lsp_format_opt,
+      --   }
+      -- end,
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
@@ -936,6 +942,9 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
+      require('mini.sessions').setup { -- Open Previous session
+        autoread = true,
+      }
     end,
   },
   { -- Highlight, edit, and navigate code
