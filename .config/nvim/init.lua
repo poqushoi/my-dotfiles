@@ -652,7 +652,6 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -662,9 +661,12 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
 
+        -- Python LSPs
         pyright = {
           filetypes = { 'python' },
         },
+        black = {},
+        isort = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -733,7 +735,11 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = {
+          c = true,
+          cpp = true,
+          py = true,
+        }
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
@@ -748,8 +754,8 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
+        python = { 'isort', 'black' },
+
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
@@ -762,7 +768,7 @@ require('lazy').setup({
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
-        'L3MON4D3/LuaSnip',
+        'L3MON4D3/LuaSnip', -- Allows to move across snippets
         build = (function()
           -- Build Step is needed for regex support in snippets.
           -- This step is not supported in many windows environments.
@@ -776,12 +782,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -791,6 +797,7 @@ require('lazy').setup({
       --  into multiple repos for maintenance purposes.
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
     },
     config = function()
       -- See `:help cmp`
@@ -858,15 +865,16 @@ require('lazy').setup({
           -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
-        sources = {
+        sources = { -- Define order of how snippets appear
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
           { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-          { name = 'path' },
+          { name = 'luasnip' }, -- luasnip
+          { name = 'buffer' }, -- text within current text buffer
+          { name = 'path' }, -- path
         },
       }
     end,
@@ -954,6 +962,16 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+
+    -- -- My Failed attempt to setup textobject. Search `demicolon` instead
+    -- 'nvim-treesitter/nvim-treesitter-textobjects',
+    -- config = function()
+    --   local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
+    --   -- Repeat movement with ; and ,
+    --   -- ensure ; goes forward and , goes backward regardless of the last direction
+    --   vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
+    --   vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
+    -- end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
