@@ -14,6 +14,9 @@ fzf --fish | source
 # Add local bin to path
 fish_add_path ~/bin/
 
+# Add python path
+fish_add_path /home/groot/venvs/python/my_global_venv/.venv/bin
+
 # nvm
 function nvm
   bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv
