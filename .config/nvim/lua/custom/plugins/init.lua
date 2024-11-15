@@ -6,8 +6,7 @@ return {
   'mg979/vim-visual-multi',
 
   {
-    -- https://www.youtube.com/watch?v=eJ3XV-3uoug
-    -- A package for quick navigation
+    -- A package for quick navigation https://www.youtube.com/watch?v=eJ3XV-3uoug
     'folke/flash.nvim',
     event = 'VeryLazy',
     ---@type Flash.Config
@@ -114,6 +113,9 @@ return {
         auto_attach_to_server = {
           enable = false,
         },
+        auto_download_ipynb = false,
+        -- firefox_profiles_ini_path = '~/.mozilla/firefox/profiles.ini',
+        -- firefox_profile_name = 'default',
       }
     end,
   },
@@ -140,5 +142,18 @@ return {
         },
       }
     end,
+  },
+
+  {
+    'andrewferrier/wrapping.nvim',
+    opts = {
+      -- auto_set_mode_filetype_denylist = {
+      --   'json',
+      -- },
+      auto_set_mode_heuristically = false,
+    },
+    -- config = function()
+    --   require('wrapping').setup()
+    -- end,
   },
 }
