@@ -102,4 +102,21 @@ return {
       vim.keymap.set('n', '<space>-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
     end,
   },
+
+  {
+    'kiyoon/jupynium.nvim',
+    build = 'pip install .',
+    -- build = "conda run --no-capture-output -n jupynium pip install .",
+    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
+
+    config = function()
+      require('jupynium').setup {
+        auto_attach_to_server = {
+          enable = false,
+        },
+      }
+    end,
+  },
+  'rcarriga/nvim-notify', -- optional
+  -- 'stevearc/dressing.nvim', -- optional, UI for :JupyniumKernelSelect
 }
