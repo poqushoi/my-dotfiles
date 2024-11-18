@@ -151,29 +151,18 @@ return {
     end,
   },
   'rcarriga/nvim-notify', -- optional
-  -- 'stevearc/dressing.nvim', -- optional, UI for :JupyniumKernelSelect
 
-  {
-    -- Enables `;` `,` repeat last move https://neovimcraft.com/plugin/mawkler/demicolon.nvim/
-    'mawkler/demicolon.nvim',
-    -- keys = { ';', ',', 't', 'f', 'T', 'F', ']', '[', ']d', '[d' }, -- Uncomment this to lazy load
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    opts = {},
-  },
 
-  {
-    'm4xshen/autoclose.nvim',
-    config = function()
-      require('autoclose').setup {
-        keys = {
-          ['$'] = { escape = true, close = true, pair = '$$', disabled_filetypes = { 'shell' } },
-        },
-      }
-    end,
-  },
+  -- {
+  --   'm4xshen/autoclose.nvim',
+  --   config = function()
+  --     require('autoclose').setup {
+  --       keys = {
+  --         ['$'] = { escape = true, close = true, pair = '$$', disabled_filetypes = { 'shell' } },
+  --       },
+  --     }
+  --   end,
+  -- },
 
   {
     'andrewferrier/wrapping.nvim',
@@ -181,10 +170,71 @@ return {
       -- auto_set_mode_filetype_denylist = {
       --   'json',
       -- },
-      auto_set_mode_heuristically = false,
+      auto_set_mode_heuristically = true,
     },
-    -- config = function()
-    --   require('wrapping').setup()
-    -- end,
+    config = function()
+      vim.keymap.set('n', '<m-w>', ':ToggleWrapMode<CR>', { desc = 'Toggle [W]rap Mode' })
+      require('wrapping').setup()
+    end,
+  },
+
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    config = function()
+      local harpoon = require 'harpoon'
+      harpoon:setup()
+
+      vim.keymap.set('n', '<m-h>m', function()
+        harpoon:list():add()
+      end, { desc = '[h]arpoon add [m]ark' })
+      vim.keymap.set('n', '<m-h>p', function()
+        harpoon:list():prev()
+      end, { desc = '[h]arpoon [p]revious' })
+      vim.keymap.set('n', '<m-h>n', function()
+        harpoon:list():next()
+      end, { desc = '[h]arpoon [n]ext' })
+      vim.keymap.set('n', '<m-h>l', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end, { desc = '[h]arpoon [l]ist' })
+
+      -- basic telescope configuration
+      local conf = require('telescope.config').values
+      local function toggle_telescope(harpoon_files)
+        local file_paths = {}
+        for _, item in ipairs(harpoon_files.items) do
+          table.insert(file_paths, item.value)
+        end
+
+        require('telescope.pickers')
+          .new({}, {
+            prompt_title = 'Harpoon',
+            finder = require('telescope.finders').new_table {
+              results = file_paths,
+            },
+            previewer = conf.file_previewer {},
+            sorter = conf.generic_sorter {},
+          })
+          :find()
+      end
+
+      vim.keymap.set('n', '<m-h>t', function()
+        toggle_telescope(harpoon:list())
+      end, { desc = 'Open [h]arpoon [t]elescope' })
+
+      -- Set <space>1..<space>5 be my shortcuts to moving to the files
+      for _, idx in ipairs { 1, 2, 3, 4, 5 } do
+        vim.keymap.set('n', string.format('<m-h>h>%d', idx), function()
+          harpoon:list():select(idx)
+        end)
+      end
+    end,
+  },
+
+  {
+    'mogulla3/copy-file-path.nvim',
+    config = function()
+      vim.keymap.set('n', '<leader>wc', ':CopyRelativeFilePath<CR>', { desc = '[c]opy relative file path' })
+    end,
   },
 }
