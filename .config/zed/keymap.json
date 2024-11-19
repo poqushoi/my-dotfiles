@@ -22,8 +22,8 @@
       "ctrl-g": "editor::ToggleHunkDiff",
       "ctrl-shift-g": "editor::RevertSelectedHunks",
       "ctrl-r": "assistant::CycleMessageRole",
-      "shift-j": null
-      // "ctrl-h": null
+      "shift-j": null,
+      "ctrl-h": null
     }
   },
 
@@ -57,20 +57,19 @@
       // Chat with AI
       "space a c": "assistant::ToggleFocus",
       // Go to file with `gf`
-      "g f": "editor::OpenExcerpts"
-    }
-  },
-  {
-    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
-    "bindings": {
-      // put key-bindings here if you want them to work only in normal mode
+      "g f": "editor::OpenExcerpts",
+
       // Window movement bindings
       // Ctrl jklk to move between panes
       "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
       "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
       "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
       // +LSP
       "space c a": "editor::ToggleCodeActions",
       "space .": "editor::ToggleCodeActions",
