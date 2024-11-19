@@ -738,14 +738,14 @@ require('lazy').setup({
     opts = {
       notify_on_error = false,
       -- format_on_save = function(bufnr)
-      --   -- Disable "format_on_save lsp_fallback" for languages that don't
-      --   -- have a well standardized coding style. You can add additional
+      --   -- disable "format_on_save lsp_fallback" for languages that don't
+      --   -- have a well standardized coding style. you can add additional
       --   -- languages here or re-enable it for the disabled ones.
       --   local disable_filetypes = {
       --     c = true,
       --     cpp = true,
-      --     -- py = true,
-      --     -- lua = true,
+      --     python = true,
+      --     lua = false,
       --   }
       --   local lsp_format_opt
       --   if disable_filetypes[vim.bo[bufnr].filetype] then
@@ -758,13 +758,23 @@ require('lazy').setup({
       --     lsp_format = lsp_format_opt,
       --   }
       -- end,
+
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
+        -- conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
 
-        -- You can use 'stop_after_first' to run the first available formatter from the list
+        -- you can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+
+        -- use the "_" filetype to run formatters on filetypes that don't
+        -- have other formatters configured.
+        ['_'] = { 'trim_whitespace' },
+      },
+      format_on_save = {
+        -- these options will be passed to conform.format()
+        lsp_fallback = false,
+        formatters = { 'trim_whitespace' },
       },
     },
   },
@@ -877,6 +887,7 @@ require('lazy').setup({
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
+            limit = 2,
           },
           { name = 'nvim_lsp' },
           { name = 'luasnip' }, -- luasnip
@@ -975,22 +986,23 @@ require('lazy').setup({
 
     { -- Show current class/function
       'nvim-treesitter/nvim-treesitter-context',
-      opts = {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        multiwindow = false, -- Enable multiwindow support.
-        max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-        line_numbers = true,
-        multiline_threshold = 2, -- Maximum number of lines to show for a single context
-        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = 'cursor', -- Line used to calculate context. Choices: 'cursor', 'topline'
-        -- Separator between context and content. Should be a single character string, like '-'.
-        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-        separator = nil,
-        zindex = 20, -- The Z-index of the context window
-        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-      },
       config = function()
+        require('treesitter-context').setup {
+          enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+          multiwindow = false, -- Enable multiwindow support.
+          max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
+          min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+          line_numbers = true,
+          multiline_threshold = 1, -- Maximum number of lines to show for a single context
+          trim_scope = 'inner', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+          mode = 'cursor', -- Line used to calculate context. Choices: 'cursor', 'topline'
+          -- Separator between context and content. Should be a single character string, like '-'.
+          -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+          separator = nil,
+          zindex = 20, -- The Z-index of the context window
+          on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+        }
+
         vim.keymap.set('n', '[v', function()
           require('treesitter-context').go_to_context(vim.v.count1)
         end, { desc = 'Go to context' })

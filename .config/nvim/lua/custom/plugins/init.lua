@@ -111,7 +111,7 @@ return {
           ['<C-l>'] = false,
           ['<C-k>'] = false,
           ['<C-j>'] = false,
-          ['<M-h>'] = 'actions.select_split',
+          ['<M-s>'] = 'actions.select_split',
 
           -- Config for quitiing
           ['<C-c>'] = false,
@@ -185,16 +185,16 @@ return {
       local harpoon = require 'harpoon'
       harpoon:setup()
 
-      vim.keymap.set('n', '<m-h>m', function()
+      vim.keymap.set('n', '<m-m>', function()
         harpoon:list():add()
       end, { desc = '[h]arpoon add [m]ark' })
-      vim.keymap.set('n', '<m-h>p', function()
+      vim.keymap.set('n', '<m-p>', function()
         harpoon:list():prev()
       end, { desc = '[h]arpoon [p]revious' })
-      vim.keymap.set('n', '<m-h>n', function()
+      vim.keymap.set('n', '<m-n>', function()
         harpoon:list():next()
       end, { desc = '[h]arpoon [n]ext' })
-      vim.keymap.set('n', '<m-h>l', function()
+      vim.keymap.set('n', '<m-h>', function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end, { desc = '[h]arpoon [l]ist' })
 
@@ -218,13 +218,13 @@ return {
           :find()
       end
 
-      vim.keymap.set('n', '<m-h>t', function()
+      vim.keymap.set('n', '<m-t>', function()
         toggle_telescope(harpoon:list())
       end, { desc = 'Open [h]arpoon [t]elescope' })
 
       -- Set <space>1..<space>5 be my shortcuts to moving to the files
       for _, idx in ipairs { 1, 2, 3, 4, 5 } do
-        vim.keymap.set('n', string.format('<m-h>h>%d', idx), function()
+        vim.keymap.set('n', string.format('<m-%d>', idx), function()
           harpoon:list():select(idx)
         end)
       end
