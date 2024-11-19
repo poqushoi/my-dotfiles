@@ -4,7 +4,7 @@ local config = {}
 -- config.color_scheme = 'Batman'
 
 -- disable bar at the top
--- config.window_decorations = "RESIZE" -- "TITLE | RESIZE"
+config.window_decorations = "RESIZE" -- "TITLE | RESIZE"
 
 config.window_background_opacity = 0.85
 
