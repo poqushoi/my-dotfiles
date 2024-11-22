@@ -21,7 +21,7 @@
       "ctrl-alt-\\": "assistant::ToggleFocus",
       "ctrl-g": "editor::ToggleHunkDiff",
       "ctrl-shift-g": "editor::RevertSelectedHunks",
-      "ctrl-r": "assistant::CycleMessageRole",
+      "ctrl-shift-r": "assistant::CycleMessageRole",
       "shift-j": null,
       "ctrl-h": null
     }
