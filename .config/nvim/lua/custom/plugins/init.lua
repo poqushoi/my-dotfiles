@@ -4,6 +4,13 @@
 -- See the kickstart.nvim README for more information
 return {
   'mg979/vim-visual-multi',
+  { -- Adds [<space> to add space to the line above
+    'tummetott/unimpaired.nvim',
+    event = 'VeryLazy',
+    opts = {
+      -- add options here if you wish to override the default settings
+    },
+  },
   {
     'Wansmer/langmapper.nvim',
     lazy = false,
@@ -32,7 +39,7 @@ return {
 
       -- Setup
       require('langmapper').setup {--[[ your config ]]
-        map_all_ctrl = false
+        map_all_ctrl = false,
       }
     end,
   },
@@ -152,7 +159,6 @@ return {
   },
   'rcarriga/nvim-notify', -- optional
 
-
   -- {
   --   'm4xshen/autoclose.nvim',
   --   config = function()
@@ -235,6 +241,31 @@ return {
     'mogulla3/copy-file-path.nvim',
     config = function()
       vim.keymap.set('n', '<leader>wc', ':CopyRelativeFilePath<CR>', { desc = '[c]opy relative file path' })
+    end,
+  },
+  { -- better folding
+    'kevinhwang91/nvim-ufo',
+    dependencies = 'kevinhwang91/promise-async',
+    config = function()
+      vim.o.foldcolumn = '1' -- '0' is not bad
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'Open all folds' })
+      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'Close all folds' })
+      vim.keymap.set('n', 'zK', function()
+        local winid = require('ufo').peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+        end
+      end, { desc = 'Peek Fold' })
+
+      require('ufo').setup {
+        provider_selector = function(bufnr, filetype, buftype)
+          return { 'lsp', 'indent' }
+        end,
+      }
     end,
   },
 }
