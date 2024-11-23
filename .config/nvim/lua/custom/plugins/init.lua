@@ -3,6 +3,8 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+  { import = 'custom.plugins.workspace' },
+
   'mg979/vim-visual-multi',
   { -- Adds [<space> to add space to the line above
     'tummetott/unimpaired.nvim',
@@ -83,64 +85,6 @@ return {
   },
 
   {
-    -- Enable buffer-like file operations
-    -- https://www.youtube.com/watch?v=q1QhV-24DNA
-    'stevearc/oil.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      CustomOilBar = function()
-        local path = vim.fn.expand '%'
-        path = path:gsub('oil://', '')
-
-        return '  ' .. vim.fn.fnamemodify(path, ':.')
-      end
-
-      require('oil').setup {
-        default_file_explorer = true,
-        delete_to_trash = true,
-        skip_confirm_for_simple_edits = true,
-        view_options = {
-          show_hidden = true,
-          natural_order = true,
-          is_always_hidden = function(name, _)
-            return name == '..' or name == '.git'
-          end,
-        },
-        float = {
-          padding = 2,
-          max_width = 90,
-          max_height = 0,
-        },
-
-        columns = { 'icon' },
-        keymaps = {
-          ['<C-h>'] = false,
-          ['<C-l>'] = false,
-          ['<C-k>'] = false,
-          ['<C-j>'] = false,
-          ['<M-s>'] = 'actions.select_split',
-
-          -- Config for quitiing
-          ['<C-c>'] = false,
-          ['q'] = 'actions.close',
-        },
-        win_options = {
-          wrap = true,
-          winblend = 0,
-          -- winbar = '%{v:lua.CustomOilBar()}',
-        },
-      }
-
-      -- Open parent directory in current window
-      vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
-
-      -- Open parent directory in floating window
-      -- vim.keymap.set('n', '<space>-', require('oil').toggle_float)
-      vim.keymap.set('n', '<space>-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
-    end,
-  },
-
-  {
     'kiyoon/jupynium.nvim',
     build = 'pip install .',
     -- build = "conda run --no-capture-output -n jupynium pip install .",
@@ -173,67 +117,16 @@ return {
   {
     'andrewferrier/wrapping.nvim',
     opts = {
+      create_commands = false,
+      create_keymaps = false
       -- auto_set_mode_filetype_denylist = {
       --   'json',
       -- },
-      auto_set_mode_heuristically = true,
+      -- auto_set_mode_heuristically = true,
     },
     config = function()
       vim.keymap.set('n', '<m-w>', ':ToggleWrapMode<CR>', { desc = 'Toggle [W]rap Mode' })
       require('wrapping').setup()
-    end,
-  },
-
-  {
-    'ThePrimeagen/harpoon',
-    branch = 'harpoon2',
-    config = function()
-      local harpoon = require 'harpoon'
-      harpoon:setup()
-
-      vim.keymap.set('n', '<m-m>', function()
-        harpoon:list():add()
-      end, { desc = '[h]arpoon add [m]ark' })
-      vim.keymap.set('n', '<m-p>', function()
-        harpoon:list():prev()
-      end, { desc = '[h]arpoon [p]revious' })
-      vim.keymap.set('n', '<m-n>', function()
-        harpoon:list():next()
-      end, { desc = '[h]arpoon [n]ext' })
-      vim.keymap.set('n', '<m-h>', function()
-        harpoon.ui:toggle_quick_menu(harpoon:list())
-      end, { desc = '[h]arpoon [l]ist' })
-
-      -- basic telescope configuration
-      local conf = require('telescope.config').values
-      local function toggle_telescope(harpoon_files)
-        local file_paths = {}
-        for _, item in ipairs(harpoon_files.items) do
-          table.insert(file_paths, item.value)
-        end
-
-        require('telescope.pickers')
-          .new({}, {
-            prompt_title = 'Harpoon',
-            finder = require('telescope.finders').new_table {
-              results = file_paths,
-            },
-            previewer = conf.file_previewer {},
-            sorter = conf.generic_sorter {},
-          })
-          :find()
-      end
-
-      vim.keymap.set('n', '<m-t>', function()
-        toggle_telescope(harpoon:list())
-      end, { desc = 'Open [h]arpoon [t]elescope' })
-
-      -- Set <space>1..<space>5 be my shortcuts to moving to the files
-      for _, idx in ipairs { 1, 2, 3, 4, 5 } do
-        vim.keymap.set('n', string.format('<m-%d>', idx), function()
-          harpoon:list():select(idx)
-        end)
-      end
     end,
   },
 
