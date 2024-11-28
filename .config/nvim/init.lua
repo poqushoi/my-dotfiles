@@ -171,9 +171,10 @@ vim.opt.scrolloff = 10
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
-vim.keymap.set('n', '<leader>wd', 'lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())', { desc = 'Toggle [d]iagnostic' })
+vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>ds', '<C-w>d', { desc = '[Show] [d]iagnostic' })
+vim.keymap.set('n', '<C-w>d', '' )
+vim.keymap.set('n', '<leader>wd', '<cmd>lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>', { desc = 'Toggle [d]iagnostic' })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -197,7 +198,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- require 'custom.settings.keymaps'
+require 'custom.settings.keymaps'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -325,7 +326,7 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
+        { '<leader>d', group = '[D]iagnostic' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
@@ -453,6 +454,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -571,7 +573,7 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+          map('<leader>wds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -675,6 +677,10 @@ require('lazy').setup({
         black = {},
         isort = {},
 
+        -- Markdown
+        marksman = {},
+
+        -- Lua
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -992,7 +998,7 @@ require('lazy').setup({
           enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
           multiwindow = false, -- Enable multiwindow support.
           max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
-          min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+          min_window_height = 30, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
           line_numbers = true,
           multiline_threshold = 1, -- Maximum number of lines to show for a single context
           trim_scope = 'inner', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
@@ -1069,6 +1075,7 @@ require('lazy').setup({
     },
   },
 })
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
