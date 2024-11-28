@@ -25,3 +25,5 @@ end
 set -x NVM_DIR ~/.nvm
 nvm use default --silent
 
+# Add deno
+fish_add_path /home/groot/.deno/bin

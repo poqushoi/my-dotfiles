@@ -1,0 +1,1 @@
+source "/home/groot/.deno/env.fish"
