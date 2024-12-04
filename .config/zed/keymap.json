@@ -22,8 +22,13 @@
       "ctrl-g": "editor::ToggleHunkDiff",
       "ctrl-shift-g": "editor::RevertSelectedHunks",
       "ctrl-shift-r": "assistant::CycleMessageRole",
+      "alt-w": "editor::ToggleSoftWrap",
+      // "ctrl-shift-f": "project_search::ToggleFocus",
+      "ctrl-shift-f": ["pane::DeploySearch", { "replace_enabled": true }],
       "shift-j": null,
-      "ctrl-h": null
+      "ctrl-r": null,
+      "ctrl-h": null,
+      "ctrl-shift-h": null
     }
   },
 

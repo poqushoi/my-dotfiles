@@ -40,5 +40,10 @@
       "version": "1",
       "api_url": "https://api.vsegpt.ru/v1"
     }
+  },
+
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
   }
 }
