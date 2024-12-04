@@ -401,15 +401,69 @@ require('lazy').setup({
 
       local lga_actions = require 'telescope-live-grep-args.actions'
 
+      -- Clone the default Telescope configuration
+      local vimgrep_arguments = { unpack(require('telescope.config').values.vimgrep_arguments) }
+
+      -- -- I want to search in hidden/dot files.
+      -- table.insert(vimgrep_arguments, '--hidden')
+      -- -- I don't want to search in the `.git` directory.
+      -- table.insert(vimgrep_arguments, '--glob')
+      -- table.insert(vimgrep_arguments, '!**/.git/*')
+
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          vimgrep_arguments = {
+            'rg',
+            '--follow', -- Follow symbolic links
+            '--hidden', -- Search for hidden files
+            '--no-heading', -- Don't group matches by each file
+            '--with-filename', -- Print the file path with the matched lines
+            '--line-number', -- Show line numbers
+            '--column', -- Show column numbers
+            '--smart-case', -- Smart case search
+
+            -- Exclude some patterns from search
+            '--glob=!**/.git/*',
+            '--glob=!**/.idea/*',
+            '--glob=!**/.vscode/*',
+            '--glob=!**/build/*',
+            '--glob=!**/dist/*',
+            '--glob=!**/yarn.lock',
+            '--glob=!**/package-lock.json',
+          },
+          pickers = {
+            find_files = {
+              hidden = true,
+              -- needed to exclude some files & dirs from general search
+              -- when not included or specified in .gitignore
+              find_command = {
+                'rg',
+                '--files',
+                '--hidden',
+                '--glob=!**/.git/*',
+                '--glob=!**/.idea/*',
+                '--glob=!**/.vscode/*',
+                '--glob=!**/build/*',
+                '--glob=!**/dist/*',
+                '--glob=!**/yarn.lock',
+                '--glob=!**/package-lock.json',
+              },
+            },
+          },
+          -- pickers = {
+          --   find_files = {
+          --     -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+          --     find_command = { 'rg', '--files', '--hidden', '--glob', '!**/.git/*' },
+          --   },
+          -- },
+          --
+          mappings = {
+            i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          },
+        },
         -- pickers = {}
 
         extensions = {
@@ -420,6 +474,7 @@ require('lazy').setup({
           live_grep_args = {
             auto_quoting = true, -- enable/disable auto-quoting
             smartcase = true,
+            hidden = true,
 
             -- define mappings, e.g.
             mappings = { -- extend mappings
@@ -446,10 +501,17 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sf', builtin.find_files, { noremap = true, silent = true, desc = '[S]earch [F]iles' })
+      vim.keymap.set(
+        'n',
+        '<leader>sF',
+        '<CMD>Telescope find_files hidden=true no_ignore=true<CR>',
+        { noremap = true, silent = true, desc = '[S]earch [F]iles Without Ignore' }
+      )
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sG', '<cmd>Telescope live_grep hidden=true no_ignore=true<CR>', { desc = '[S]earch by [G]rep without ignore' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -1075,7 +1137,6 @@ require('lazy').setup({
     },
   },
 })
-
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
