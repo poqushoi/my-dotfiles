@@ -12,7 +12,10 @@ set -gx EDITOR $VISUAL
 fzf --fish | source
 
 # Add local bin to path
-fish_add_path ~/bin/
+fish_add_path ~/.local/bin/
+
+# Add scripts to path
+fish_add_path ~/.local/scripts/
 
 # Add python path
 fish_add_path /home/groot/venvs/python/my_global_venv/.venv/bin
@@ -27,3 +30,4 @@ nvm use default --silent
 
 # Add deno
 fish_add_path /home/groot/.deno/bin
+
