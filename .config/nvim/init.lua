@@ -173,7 +173,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>ds', '<C-w>d', { desc = '[Show] [d]iagnostic' })
-vim.keymap.set('n', '<C-w>d', '' )
+-- vim.keymap.set('', '<C-w>d', '')
 vim.keymap.set('n', '<leader>wd', '<cmd>lua vim.diagnostic.enable(not vim.diagnostic.is_enabled())<CR>', { desc = 'Toggle [d]iagnostic' })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -326,7 +326,7 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]iagnostic' },
+        { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
@@ -433,6 +433,7 @@ require('lazy').setup({
             '--glob=!**/dist/*',
             '--glob=!**/yarn.lock',
             '--glob=!**/package-lock.json',
+            '--glob=!**/.venv',
           },
           pickers = {
             find_files = {
@@ -738,6 +739,7 @@ require('lazy').setup({
         },
         black = {},
         isort = {},
+        debugpy = {},
 
         -- Markdown
         marksman = {},
@@ -1099,7 +1101,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
