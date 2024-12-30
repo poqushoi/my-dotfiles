@@ -84,23 +84,7 @@ return {
     end,
   },
 
-  {
-    'kiyoon/jupynium.nvim',
-    build = 'pip install .',
-    -- build = "conda run --no-capture-output -n jupynium pip install .",
-    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
 
-    config = function()
-      require('jupynium').setup {
-        auto_attach_to_server = {
-          enable = false,
-        },
-        auto_download_ipynb = false,
-        -- firefox_profiles_ini_path = '~/.mozilla/firefox/profiles.ini',
-        -- firefox_profile_name = 'default',
-      }
-    end,
-  },
   'rcarriga/nvim-notify', -- optional
 
   -- {
