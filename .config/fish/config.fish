@@ -2,14 +2,27 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-set -x STARSHIP_CONFIG ~/.config/starship/starship.toml
-starship init fish | source
+# Check if Starship is installed
+if not type -q starship
+    echo "Starship is not installed. Installing..."
+    curl -sS https://starship.rs/install.sh | sh
+else
+    # Initialize Starship
+    set -x STARSHIP_CONFIG ~/.config/starship/starship.toml
+    starship init fish | source
+end
 
 set -gx VISUAL /usr/bin/nvim
 set -gx EDITOR $VISUAL
 
-# Set up fzf key bindings
-fzf --fish | source
+# Check if FZF is installed
+if not type -q fzf
+    echo "FZF is not installed. Please install it by following the instructions at:"
+    echo "https://github.com/junegunn/fzf#installation"
+else
+    # Initialize FZF
+    fzf --fish | source
+end
 
 # Add local bin to path
 fish_add_path ~/.local/bin/
@@ -21,13 +34,20 @@ fish_add_path ~/.local/scripts/
 fish_add_path /home/groot/venvs/python/my_global_venv/.venv/bin
 
 # nvm
-function nvm
-  bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv
+if not type -q nvm
+  echo "nvm is not installed"
+else
+  function nvm
+    bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv
+  end
+
+  set -x NVM_DIR ~/.nvm
+  nvm use default --silent
 end
 
-set -x NVM_DIR ~/.nvm
-nvm use default --silent
-
-# Add deno
-fish_add_path /home/groot/.deno/bin
-
+# Add deno for peek markdown preview
+if not contains $HOME/.deno/bin $PATH
+  echo "Deno not installed"
+else
+  fish_add_path /home/groot/.deno/bin
+end
