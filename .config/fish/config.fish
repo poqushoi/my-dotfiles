@@ -34,7 +34,7 @@ fish_add_path ~/.local/scripts/
 fish_add_path /home/groot/venvs/python/my_global_venv/.venv/bin
 
 # nvm
-if not type -q nvm
+if not test -d $HOME/.nvm/
   echo "nvm is not installed"
 else
   function nvm
@@ -46,7 +46,7 @@ else
 end
 
 # Add deno for peek markdown preview
-if not contains $HOME/.deno/bin $PATH
+if not test -d $HOME/.deno
   echo "Deno not installed"
 else
   fish_add_path /home/groot/.deno/bin
