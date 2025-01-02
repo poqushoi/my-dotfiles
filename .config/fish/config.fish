@@ -5,7 +5,7 @@ end
 # Check if Starship is installed
 if not type -q starship
     echo "Starship is not installed. Installing..."
-    curl -sS https://starship.rs/install.sh | sh
+    #curl -sS https://starship.rs/install.sh | sh
 else
     # Initialize Starship
     set -x STARSHIP_CONFIG ~/.config/starship/starship.toml
