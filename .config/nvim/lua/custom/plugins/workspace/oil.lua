@@ -39,6 +39,7 @@ return {
         -- Config for quitiing
         ['<C-c>'] = false,
         ['q'] = 'actions.close',
+        ['<esc>'] = 'actions.close',
       },
       win_options = {
         wrap = true,
