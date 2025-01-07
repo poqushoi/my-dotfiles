@@ -8,6 +8,7 @@ return {
 
   {
     'GCBallesteros/NotebookNavigator.nvim',
+    ft = 'ipynb',
     keys = {
       {
         ']j',
@@ -21,8 +22,18 @@ return {
           require('notebook-navigator').move_cell 'u'
         end,
       },
-      { '<leader>X', "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
-      { '<leader>x', "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
+      {
+        '<leader>X',
+        "<cmd>lua require('notebook-navigator').run_cell()<cr>",
+        desc = 'Run Cell',
+        ft = 'ipynb',
+      },
+      {
+        '<leader>x',
+        "<cmd>lua require('notebook-navigator').run_and_move()<cr>",
+        desc = 'Run Cell and Move',
+        ft = 'ipynb',
+      },
     },
     dependencies = {
       'echasnovski/mini.comment',
@@ -37,6 +48,12 @@ return {
       nn.setup { activate_hydra_keys = '<leader>h' }
     end,
   },
+
+  -- {
+  --   'hkupty/iron.nvim',
+  --   event = 'VeryLazy',
+  --   ft = 'ipynb',
+  -- },
 
   {
     'linux-cultist/venv-selector.nvim',
