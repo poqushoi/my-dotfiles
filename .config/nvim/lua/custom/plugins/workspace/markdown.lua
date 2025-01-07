@@ -1,5 +1,11 @@
--- Added to LSP: https://github.com/artempyanykh/marksman/blob/main/docs/demo.md
 return {
+  {
+    -- Demo: https://github.com/artempyanykh/marksman/blob/main/docs/demo.md
+    -- preview, completions, renaming, gotos
+    'artempyanykh/marksman',
+    ft = 'markdown',
+  },
+
   { -- preview
     'toppair/peek.nvim',
     event = { 'VeryLazy' },
@@ -15,7 +21,10 @@ return {
     'tadmccorkle/markdown.nvim',
     ft = 'markdown', -- or 'event = "VeryLazy"'
     opts = {
-      -- configuration here or empty for defaults
+      mappings = {
+        inline_surround_delete = 'dms', -- (string|boolean) delete emphasis surrounding cursor
+        inline_surround_change = 'cms', -- (string|boolean) change emphasis surrounding cursor
+      },
     },
   },
   -- {
@@ -36,7 +45,19 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
-      enabled=false
+      enabled = false,
+      link = {
+        custom = {
+          web = { pattern = '^http', icon = '󰖟 ' },
+          youtube = { pattern = 'youtube%.com', icon = '󰗃 ' },
+          github = { pattern = 'github%.com', icon = '󰊤 ' },
+          neovim = { pattern = 'neovim%.io', icon = ' ' },
+          stackoverflow = { pattern = 'stackoverflow%.com', icon = '󰓌 ' },
+          discord = { pattern = 'discord%.com', icon = '󰙯 ' },
+          reddit = { pattern = 'reddit%.com', icon = '󰑍 ' },
+          huggingface = { pattern = 'huggingface%.co', icon = '🤗' },
+        },
+      },
     },
   },
   -- {
