@@ -12,7 +12,7 @@ else
     starship init fish | source
 end
 
-set -gx VISUAL /usr/bin/nvim
+set -gx VISUAL $(which nvim)
 set -gx EDITOR $VISUAL
 
 # Check if FZF is installed
