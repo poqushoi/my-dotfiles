@@ -3,6 +3,7 @@ $directory\
 $git_branch\
 $git_status\
 $fill\
+[$username](yellow)[@](cyan)[ $os$hostname](green)\
 $python\
 $lua\
 $nodejs\
@@ -20,6 +21,15 @@ $character"""
 
 add_newline = true
 palette = 'onedark'
+
+[os]
+disabled = false
+
+[username]
+show_always = true
+# style_user = "bg:color_orange fg:color_fg0"
+# style_root = "bg:color_orange fg:color_fg0"
+format = '[ $user ]($style)'
 
 [directory]
 style = 'bold fg:dark_blue'
@@ -101,6 +111,31 @@ format = '[$symbol]($style)'
 min_time = 500
 style = 'fg:gray'
 format = '[$duration]($style)'
+
+[os.symbols]
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = "󰣇 "
+Artix = "󰣇 "
+CentOS = " "
+Debian = "󰣚 "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+FreeBSD = " "
+Gentoo = "󰣨 "
+Linux = "󰌽 "
+Mint = "󰣭 "
+Macos = "󰀵 "
+Manjaro = " "
+Raspbian = "󰐿 "
+Redhat = "󱄛 "
+RedHatEnterprise = "󱄛 "
+SUSE = " "
+Ubuntu = "󰕈 "
+Windows = "󰍲 "
+Unknown = " "
 
 [palettes.nord]
 dark_blue = '#5E81AC'
