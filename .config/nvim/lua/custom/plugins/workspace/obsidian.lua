@@ -1,10 +1,11 @@
-local obsidian_path = '/home/groot/Desktop/notes/obsidian'
+local obsidian_path = '~/Desktop/notes/obsidian'
+local main_vault_path = string.format('%s/my-obsidian', obsidian_path)
 
 local opts = {
   workspaces = {
     {
       name = 'my-obsidian',
-      path = string.format('%s/my-obsidian', obsidian_path),
+      path = main_vault_path,
     },
   },
 
@@ -60,11 +61,7 @@ local M = {
     obsidian.setup(opts)
 
     vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianNewFromTemplate<CR>', { desc = 'New [o]bsidian note from [t]emplate' })
-    -- vim.api.nvim_create_user_command('ObsidianNewFromTemplate', function()
-    --   vim.cmd 'ObsidianNew'
-    --   vim.cmd 'normal! G' -- go to end of file
-    --   vim.cmd 'ObsidianTemplate'
-    -- end, {})
   end,
 }
+
 return M
