@@ -19,3 +19,5 @@ vim.keymap.set('n', '<C-w><C-l>', '<CMD>vertical resize +10<CR>', { desc = 'Resi
 -- Tabs
 keymap('v', '<', '<gv', { desc = 'Untab' })
 keymap('v', '>', '>gv', { desc = 'Tab' })
+
+require 'custom.settings.execution'
