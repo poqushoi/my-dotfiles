@@ -223,19 +223,6 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
     end, { desc = '[S]earch Neovim [P]ackages' })
 
     vim.keymap.set('n', '<leader>sg', live_grep_func, { desc = 'Live [G]rep' })
-
-    -- Shortcut for searching Obsidian
-    local obsidian_path = require('obsidian').get_client().current_workspace.path.filename
-
-    -- Search files
-    vim.keymap.set('n', '<leader>sof', function()
-      builtin.find_files { cwd = obsidian_path }
-    end, { desc = '[S]earch [O]bsidian files' })
-
-    -- Search with live grep
-    vim.keymap.set('n', '<leader>sog', function()
-      live_grep_func { cwd = obsidian_path, search_dirs = { obsidian_path } }
-    end, { desc = 'Live [G]rep [O]bsidian files' })
   end,
 }
 
