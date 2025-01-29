@@ -84,7 +84,6 @@ return {
     end,
   },
 
-
   'rcarriga/nvim-notify', -- optional
 
   -- {
@@ -148,4 +147,5 @@ return {
       }
     end,
   },
+  { 'stefandtw/quickfix-reflector.vim' }, -- edit quickfix list
 }

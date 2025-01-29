@@ -43,6 +43,7 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
       -- For major updates, this must be adjusted manually.
       version = '^1.0.0',
     },
+    -- 'nvim-telescope/telescope-media-files.nvim',
   },
   config = function()
     -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -133,7 +134,6 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
           i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         },
       },
-      -- pickers = {}
 
       extensions = {
         ['ui-select'] = {
@@ -141,6 +141,16 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
         },
 
         live_grep_args = {
+          -- theme = 'vertical',
+          -- layout_strategy = 'vertical',
+          layout_config = {
+            horizontal = {
+              prompt_position = 'top',
+              width = { padding = 10 },
+              -- height = { padding = 0 },
+              preview_width = 0.5,
+            },
+          },
           auto_quoting = true, -- enable/disable auto-quoting
           smartcase = true,
           hidden = true,
@@ -166,6 +176,7 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
     pcall(require('telescope').load_extension, 'live_grep_args')
+    pcall(require('telescope').load_extension, 'media_files')
 
     -- Load customgreps
     local customgrep = require 'custom.plugins.workspace.telescope.customgrep'
@@ -227,12 +238,12 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
     -- Shortcut for searching Obsidian
     local obsidian_path = require('obsidian').get_client().current_workspace.path.filename
 
-    -- Search files
+    -- Search Obsidian files
     vim.keymap.set('n', '<leader>sof', function()
       builtin.find_files { cwd = obsidian_path }
     end, { desc = '[S]earch [O]bsidian files' })
 
-    -- Search with live grep
+    -- Search Obsidian with live grep
     vim.keymap.set('n', '<leader>sog', function()
       live_grep_func { cwd = obsidian_path, search_dirs = { obsidian_path } }
     end, { desc = 'Live [G]rep [O]bsidian files' })

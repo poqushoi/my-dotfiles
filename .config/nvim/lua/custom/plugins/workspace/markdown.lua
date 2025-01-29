@@ -42,23 +42,26 @@ return {
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {
-      enabled = false,
-      link = {
-        custom = {
-          web = { pattern = '^http', icon = '󰖟 ' },
-          youtube = { pattern = 'youtube%.com', icon = '󰗃 ' },
-          github = { pattern = 'github%.com', icon = '󰊤 ' },
-          neovim = { pattern = 'neovim%.io', icon = ' ' },
-          stackoverflow = { pattern = 'stackoverflow%.com', icon = '󰓌 ' },
-          discord = { pattern = 'discord%.com', icon = '󰙯 ' },
-          reddit = { pattern = 'reddit%.com', icon = '󰑍 ' },
-          huggingface = { pattern = 'huggingface%.co', icon = '🤗' },
+
+    config = function()
+      require('render-markdown').setup {
+        heading = { enabled = false },
+        bullet = { enabled = false },
+        enabled = false,
+        link = {
+          custom = {
+            web = { pattern = '^http', icon = '󰖟 ' },
+            youtube = { pattern = 'youtube%.com', icon = '󰗃 ' },
+            github = { pattern = 'github%.com', icon = '󰊤 ' },
+            neovim = { pattern = 'neovim%.io', icon = ' ' },
+            stackoverflow = { pattern = 'stackoverflow%.com', icon = '󰓌 ' },
+            discord = { pattern = 'discord%.com', icon = '󰙯 ' },
+            reddit = { pattern = 'reddit%.com', icon = '󰑍 ' },
+            huggingface = { pattern = 'huggingface%.co', icon = '🤗' },
+          },
         },
-      },
-    },
+      }
+    end,
   },
   -- {
   --   'iamcco/markdown-preview.nvim',

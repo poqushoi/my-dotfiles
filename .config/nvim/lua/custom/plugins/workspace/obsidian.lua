@@ -13,6 +13,9 @@ local opts = {
   new_notes_location = 'notes_subdir',
   disable_frontmatter = true,
 
+  ui = { enable = false },
+  -- conseallevel = 1,
+
   daily_notes = {
     -- Optional, if you keep daily notes in a separate directory.
     folder = 'Calendar/Notes',
@@ -61,6 +64,9 @@ local M = {
     obsidian.setup(opts)
 
     vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianNewFromTemplate<CR>', { desc = 'New [o]bsidian note from [t]emplate' })
+
+    -- Checkboxes fix: https://github.com/epwalsh/obsidian.nvim/issues/286
+    -- vim.opt.conceallevel = 1
   end,
 }
 
