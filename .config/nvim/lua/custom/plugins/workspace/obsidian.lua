@@ -63,7 +63,35 @@ local M = {
     local obsidian = require 'obsidian'
     obsidian.setup(opts)
 
+    local function CreateNoteWithDefaultTemplate()
+      -- [Notes creation from templates](https://github.com/epwalsh/obsidian.nvim/issues/467)
+      local TEMPLATE_NAME = 'basic'
+      local obsidian_client = require('obsidian').get_client()
+      local cur_file_path = vim.api.nvim_buf_get_name(0)
+      local base, cur_fname = string.match(cur_file_path, '(.*)/(.*).md')
+
+      -- yank selected text and set it to variable
+      vim.cmd.normal 'y'
+      local selected_text = vim.fn.getreg '0'
+
+      -- create note
+      local note = obsidian_client:create_note {
+        title = selected_text,
+        no_write = false,
+        template = TEMPLATE_NAME,
+      }
+
+      -- add [[...]] to create wiki-link
+      vim.cmd.normal('`]a]]')
+      vim.cmd.normal('`<i[[')
+
+      -- open new note and add backlink to it
+      obsidian_client:open_note(note, { sync = true })
+      vim.cmd.normal('ggjA [[' .. cur_fname .. ']]')
+    end
+
     vim.keymap.set('n', '<leader>ot', '<cmd>ObsidianNewFromTemplate<CR>', { desc = 'New [o]bsidian note from [t]emplate' })
+    vim.keymap.set('v', '<leader>ot', CreateNoteWithDefaultTemplate, { desc = 'New [o]bsidian note from [t]emplate' })
 
     -- Checkboxes fix: https://github.com/epwalsh/obsidian.nvim/issues/286
     -- vim.opt.conceallevel = 1
