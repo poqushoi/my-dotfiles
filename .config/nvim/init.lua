@@ -560,6 +560,7 @@ require('lazy').setup({
         -- JSON
         fixjson = {},
         jsonlint = {},
+
         -- Lua
         lua_ls = {
           -- cmd = {...},
@@ -571,7 +572,7 @@ require('lazy').setup({
                 callSnippet = 'Replace',
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },
@@ -622,49 +623,59 @@ require('lazy').setup({
         desc = '[F]ormat buffer',
       },
     },
-    opts = {
-      notify_on_error = false,
-      -- format_on_save = function(bufnr)
-      --   -- disable "format_on_save lsp_fallback" for languages that don't
-      --   -- have a well standardized coding style. you can add additional
-      --   -- languages here or re-enable it for the disabled ones.
-      --   local disable_filetypes = {
-      --     c = true,
-      --     cpp = true,
-      --     python = true,
-      --     lua = false,
-      --   }
-      --   local lsp_format_opt
-      --   if disable_filetypes[vim.bo[bufnr].filetype] then
-      --     lsp_format_opt = 'never'
-      --   else
-      --     lsp_format_opt = 'fallback'
-      --   end
-      --   return {
-      --     timeout_ms = 500,
-      --     lsp_format = lsp_format_opt,
-      --   }
-      -- end,
+    config = function()
+      require('conform').setup {
+        notify_on_error = true,
 
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- conform can also run multiple formatters sequentially
-        python = { 'isort', 'black' },
-        sh = { 'beautysh' },
+        formatters_by_ft = {
+          lua = { 'stylua' },
+          -- conform can also run multiple formatters sequentially
+          python = { 'isort', 'black' },
+          sh = { 'beautysh' },
+          json = { 'fixjson' },
 
-        -- you can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+          -- you can use 'stop_after_first' to run the first available formatter from the list
+          -- javascript = { "prettierd", "prettier", stop_after_first = true },
 
-        -- use the "_" filetype to run formatters on filetypes that don't
-        -- have other formatters configured.
-        ['_'] = { 'trim_whitespace' },
-      },
-      format_on_save = {
-        -- these options will be passed to conform.format()
-        lsp_fallback = false,
-        formatters = { 'trim_whitespace' },
-      },
-    },
+          -- use the "_" filetype to run formatters on filetypes that don't
+          -- have other formatters configured.
+          ['_'] = { 'trim_whitespace' },
+        },
+
+        format_on_save = {
+          -- these options will be passed to conform.format()
+          lsp_fallback = false,
+          formatters = { 'trim_whitespace' },
+        },
+
+        -- format_on_save = function(bufnr)
+        --   -- disable "format_on_save lsp_fallback" for languages that don't
+        --   -- have a well standardized coding style. you can add additional
+        --   -- languages here or re-enable it for the disabled ones.
+        --   local disable_filetypes = {
+        --     c = true,
+        --     cpp = true,
+        --     python = true,
+        --     lua = false,
+        --   }
+        --   local lsp_format_opt
+        --   if disable_filetypes[vim.bo[bufnr].filetype] then
+        --     lsp_format_opt = 'never'
+        --   else
+        --     lsp_format_opt = 'fallback'
+        --   end
+        --   return {
+        --     timeout_ms = 500,
+        --     lsp_format = lsp_format_opt,
+        --   }
+        -- end,
+      }
+      -- Add configuration file path or arguments
+      local utils = require 'conform.util'
+      utils.add_formatter_args(require 'conform.formatters.stylua', {
+        '--config-path=' .. vim.env.HOME .. '/.config/nvim/.stylua.toml',
+      })
+    end,
   },
 
   { -- Autocompletion
