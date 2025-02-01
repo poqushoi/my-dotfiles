@@ -557,6 +557,9 @@ require('lazy').setup({
         shellcheck = {},
         beautysh = {},
 
+        -- JSON
+        fixjson = {},
+        jsonlint = {},
         -- Lua
         lua_ls = {
           -- cmd = {...},
