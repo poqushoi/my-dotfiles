@@ -8,7 +8,7 @@ return {
 
   {
     'GCBallesteros/NotebookNavigator.nvim',
-    ft = 'ipynb',
+    ft = 'py',
     keys = {
       {
         ']j',
