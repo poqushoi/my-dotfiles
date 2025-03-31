@@ -68,59 +68,67 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
     -- [[ Configure Telescope ]]
     -- See `:help telescope` and `:help telescope.setup()`
 
+    local telescope = require 'telescope'
     local lga_actions = require 'telescope-live-grep-args.actions'
 
     -- Clone the default Telescope configuration
-    local vimgrep_arguments = { unpack(require('telescope.config').values.vimgrep_arguments) }
+    local vimgrep_default_arguments = {
+      'rg',
+      '--follow', -- Follow symbolic links
+      '--hidden', -- Search for hidden files
+      '--no-heading', -- Don't group matches by each file
+      '--with-filename', -- Print the file path with the matched lines
+      '--line-number', -- Show line numbers
+      '--column', -- Show column numbers
+      '--smart-case', -- Smart case search
+    }
 
-    -- -- I want to search in hidden/dot files.
-    -- table.insert(vimgrep_arguments, '--hidden')
-    -- -- I don't want to search in the `.git` directory.
-    -- table.insert(vimgrep_arguments, '--glob')
-    -- table.insert(vimgrep_arguments, '!**/.git/*')
+    -- Exclude some patterns from search
+    local ignore_patterns = {
+      '--glob=!**/.git/*',
+      '--glob=!**/.idea/*',
+      '--glob=!**/.vscode/*',
+      '--glob=!**/build/*',
+      '--glob=!**/dist/*',
+      '--glob=!**/yarn.lock',
+      '--glob=!**/package-lock.json',
+      '--glob=!**/.venv',
+    }
 
-    require('telescope').setup {
+    -- Include some patterns back
+    local include_patterns = {
+      '--glob=**/.env',
+      '--glob=**/.gitignore',
+    }
+
+    -- Search arguments
+    local vimgrep_arguments = {}
+    vim.list_extend(vimgrep_arguments, vimgrep_default_arguments)
+    vim.list_extend(vimgrep_arguments, ignore_patterns)
+    vim.list_extend(vimgrep_arguments, { '--glob=!**/*.ipynb' })
+    -- vim.list_extend(vimgrep_arguments, include_patterns)
+
+    -- print(table.concat(vimgrep_arguments, ', '))
+
+    local find_command = {
+      'rg',
+      '--files',
+      '--hidden',
+    }
+    vim.list_extend(find_command, ignore_patterns)
+    -- vim.list_extend(find_command, include_patterns)
+
+    telescope.setup {
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
-      --
       defaults = {
-        vimgrep_arguments = {
-          'rg',
-          '--follow', -- Follow symbolic links
-          '--hidden', -- Search for hidden files
-          '--no-heading', -- Don't group matches by each file
-          '--with-filename', -- Print the file path with the matched lines
-          '--line-number', -- Show line numbers
-          '--column', -- Show column numbers
-          '--smart-case', -- Smart case search
-
-          -- Exclude some patterns from search
-          '--glob=!**/.git/*',
-          '--glob=!**/.idea/*',
-          '--glob=!**/.vscode/*',
-          '--glob=!**/build/*',
-          '--glob=!**/dist/*',
-          '--glob=!**/yarn.lock',
-          '--glob=!**/package-lock.json',
-          '--glob=!**/.venv',
-        },
+        vimgrep_arguments = vimgrep_arguments,
         pickers = {
           find_files = {
             hidden = true,
             -- needed to exclude some files & dirs from general search
             -- when not included or specified in .gitignore
-            find_command = {
-              'rg',
-              '--files',
-              '--hidden',
-              '--glob=!**/.git/*',
-              '--glob=!**/.idea/*',
-              '--glob=!**/.vscode/*',
-              '--glob=!**/build/*',
-              '--glob=!**/dist/*',
-              '--glob=!**/yarn.lock',
-              '--glob=!**/package-lock.json',
-            },
+            find_command = find_command,
           },
         },
         -- pickers = {
@@ -187,7 +195,13 @@ local M = { -- Fuzzy Finder (files, lsp, etc)
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    vim.keymap.set('n', '<leader>sf', builtin.find_files, { noremap = true, silent = true, desc = '[S]earch [F]iles' })
+    vim.keymap.set('n', '<leader>sf', function()
+      builtin.find_files { find_command = find_command }
+    end, {
+      noremap = true,
+      silent = true,
+      desc = '[S]earch [F]iles',
+    })
     vim.keymap.set(
       'n',
       '<leader>sF',
