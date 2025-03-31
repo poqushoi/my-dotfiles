@@ -4,6 +4,7 @@
 -- See the kickstart.nvim README for more information
 return {
   { import = 'custom.plugins.workspace' },
+  { import = 'custom.plugins.editing' },
 
   'mg979/vim-visual-multi',
   { -- Adds [<space> to add space to the line above
