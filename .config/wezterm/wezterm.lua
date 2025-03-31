@@ -51,12 +51,12 @@ config.keys = {
     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
   {
-    key = 'h',
+    key = 's',
     mods = 'LEADER',
     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
   },
   {
-    key = 'w',
+    key = 'q',
     mods = 'LEADER',
     action = wezterm.action.CloseCurrentPane { confirm = false },
   },
@@ -70,6 +70,9 @@ config.keys = {
     mods = 'LEADER',
     action = wezterm.action.EmitEvent 'toggle-opacity',
   },
+
+  { key = 'UpArrow', mods = 'SHIFT', action = wezterm.action.ScrollToPrompt(-1) },
+  { key = 'DownArrow', mods = 'SHIFT', action = wezterm.action.ScrollToPrompt(1) },
 }
 
 return config
