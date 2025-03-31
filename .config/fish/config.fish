@@ -31,7 +31,7 @@ fish_add_path ~/.local/bin/
 fish_add_path ~/.local/scripts/
 
 # Add python path
-fish_add_path /home/groot/venvs/python/my_global_venv/.venv/bin
+fish_add_path ~/venvs/python/my_global_venv/.venv/bin
 
 # nvm
 if not test -d $HOME/.nvm/
