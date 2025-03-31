@@ -1,13 +1,15 @@
 return {
-
   { -- Linting
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
+        json = { 'jsonlint' },
+        -- markdown = { 'vale' },
+        -- text = { 'vale' },
       }
+      local base_linters = { 'typos' }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
@@ -52,9 +54,12 @@ return {
           -- describe the hovered symbol using Markdown.
           if vim.opt_local.modifiable:get() then
             lint.try_lint()
+            lint.try_lint(base_linters)
           end
         end,
       })
+
+      vim.keymap.set('n', '<leader>wl', lint.try_lint, { desc = '[L]int' })
     end,
   },
 }
