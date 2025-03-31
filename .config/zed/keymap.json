@@ -9,7 +9,7 @@
   {
     "context": "Workspace",
     "bindings": {
-      // "shift shift": "file_finder::Toggle"
+      "space s f": "file_finder::Toggle"
     }
   },
   {
@@ -19,16 +19,19 @@
       "ctrl-.": "assistant::QuoteSelection",
       "ctrl-,": "assistant::InsertIntoEditor",
       "ctrl-alt-\\": "assistant::ToggleFocus",
-      "ctrl-g": "editor::ToggleHunkDiff",
+      "ctrl-g": "editor::ToggleSelectedDiffHunks",
       "ctrl-shift-g": "editor::RevertSelectedHunks",
-      "ctrl-shift-r": "assistant::CycleMessageRole",
+      "alt-r": "assistant::CycleMessageRole",
       "alt-w": "editor::ToggleSoftWrap",
       // "ctrl-shift-f": "project_search::ToggleFocus",
       "ctrl-shift-f": ["pane::DeploySearch", { "replace_enabled": true }],
       "shift-j": null,
       "ctrl-r": null,
       "ctrl-h": null,
-      "ctrl-shift-h": null
+      "ctrl-shift-h": null,
+      "alt-y": "editor::AcceptEditPrediction",
+      "alt-l": "editor::AcceptPartialEditPrediction",
+      "alt-s": "editor::ToggleEditPrediction"
     }
   },
 
@@ -38,7 +41,7 @@
     "bindings": {
       // put key-bindings here if you want them to work in normal & visual mode
       // Git
-      "space h d": "editor::ToggleHunkDiff",
+      "space h d": "editor::ToggleSelectedDiffHunks",
       "space h r": "editor::RevertSelectedHunks",
 
       // Toggle inlay hints
@@ -57,7 +60,7 @@
       // Open recent project
       "space f p": "projects::OpenRecent",
       // Search word under cursor
-      "space s w": "pane::DeploySearch",
+      "space s g": "pane::DeploySearch",
 
       // Chat with AI
       "space a c": "assistant::ToggleFocus",
@@ -66,10 +69,10 @@
 
       // Window movement bindings
       // Ctrl jklk to move between panes
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
   {
@@ -78,7 +81,7 @@
       // +LSP
       "space c a": "editor::ToggleCodeActions",
       "space .": "editor::ToggleCodeActions",
-      "space c r": "editor::Rename",
+      "space r n": "editor::Rename",
       "g d": "editor::GoToDefinition",
       "g D": "editor::GoToDefinitionSplit",
       "g i": "editor::GoToImplementation",
@@ -96,6 +99,9 @@
       "s S": "project_symbols::Toggle",
       // Diagnostic
       "space x x": "diagnostics::Deploy",
+
+      // Editing
+      "ctrl-r": "vim::Redo",
 
       // +Git
       // Git prev/next hunk
@@ -125,6 +131,14 @@
       "space e": "pane::RevealInProjectPanel"
     }
   },
+  {
+    "context": "Editor && showing_completions",
+    "bindings": {
+      "ctrl-y": "editor::ConfirmCompletion",
+      "ctrl-l": "editor::ComposeCompletion"
+    }
+  },
+
   // Empty pane, set of keybindings that are available when there is no active editor
   {
     "context": "EmptyPane || SharedScreen",
@@ -177,10 +191,10 @@
   {
     "context": "Terminal",
     "bindings": {
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
   // File panel (netrw)
@@ -198,20 +212,20 @@
       "q": "workspace::ToggleRightDock",
       "space e": "workspace::ToggleRightDock",
       // Navigate between panel
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
   // Panel nagivation
   {
     "context": "Dock",
     "bindings": {
-      "ctrl-w h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-w l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-w k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-w j": ["workspace::ActivatePaneInDirection", "Down"]
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w j": "workspace::ActivatePaneDown"
     }
   },
   {

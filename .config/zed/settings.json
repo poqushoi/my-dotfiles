@@ -7,7 +7,12 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
+  "auto_update": false,
   "vim_mode": true,
+  "relative_line_numbers": true,
   "base_keymap": "Atom",
   "assistant": {
     "default_model": {
@@ -16,18 +21,18 @@
     },
     "version": "2"
   },
-  "ui_font_size": 15,
-  "buffer_font_size": 15,
+  "ui_font_size": 13,
+  "buffer_font_size": 14.0,
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Github Dark"
+    "dark": "Tokyo Night"
   },
-  "buffer_font_family": "Hack Nerd Font Mono",
-  "features": {
-    "inline_completion_provider": "supermaven"
-  },
-  "show_inline_completions": false,
+  "buffer_font_family": "CommitMono Nerd Font",
+  // "features": {
+  //   "inline_completion_provider": "supermaven"
+  // },
+  "show_inline_completions": true,
   "autosave": "on_focus_change",
   "outline_panel": {
     /// Whether to fold directories automatically
