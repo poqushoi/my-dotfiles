@@ -540,13 +540,17 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
 
+        -- Prettier
+        -- prettier = {},
+
         -- Python LSPs
-        pyright = {
-          filetypes = { 'python' },
-          capabilities = capabilities,
-        },
+        -- pyright = {
+        --   filetypes = { 'python' },
+        --   capabilities = capabilities,
+        -- },
         black = {},
         isort = {},
+        ruff = {},
         debugpy = {},
 
         -- Markdown
@@ -560,6 +564,27 @@ require('lazy').setup({
         -- JSON
         fixjson = {},
         jsonlint = {},
+
+        -- Javascript
+        eslint = {},
+
+        -- Docker
+        -- ['yamlls'] = function()
+        --   require('lspconfig').yamlls.setup {
+        --     capabilities = capabilities,
+        --     settings = {
+        --       yaml = {
+        --         schemas = {
+        --           kubernetes = '/*.yaml',
+        --           -- Add the schema for gitlab pipelines
+        --           -- ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*.gitlab-ci.yml",
+        --         },
+        --       },
+        --     },
+        --   }
+        -- end,
+        -- docker_compose_language_service = {},
+        -- dockerls = {},
 
         -- Lua
         lua_ls = {
@@ -576,6 +601,15 @@ require('lazy').setup({
             },
           },
         },
+
+        -- Rust
+        rust_analyzer = {},
+
+        -- Text
+        typos = {},
+        typos_lsp = { filetype = { '*' } },
+        -- vale = {},
+        -- textlint = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -631,11 +665,13 @@ require('lazy').setup({
           lua = { 'stylua' },
           -- conform can also run multiple formatters sequentially
           python = { 'isort', 'black' },
+          -- python = { 'ruff', 'black', 'isort' },
           sh = { 'beautysh' },
           json = { 'fixjson' },
+          -- yaml = { 'yamlfmt' },
 
           -- you can use 'stop_after_first' to run the first available formatter from the list
-          -- javascript = { "prettierd", "prettier", stop_after_first = true },
+          javascript = { 'eslint', 'prettierd', 'prettier', stop_after_first = false },
 
           -- use the "_" filetype to run formatters on filetypes that don't
           -- have other formatters configured.
@@ -797,24 +833,6 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
-    end,
-  },
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -864,7 +882,23 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'vim',
+        'vimdoc',
+        'python',
+        'bash',
+        'rust',
+        'c',
+        'diff',
+        'html',
+        'xml',
+        'yaml',
+        'query',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -872,7 +906,7 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { 'ruby', 'markdown' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },

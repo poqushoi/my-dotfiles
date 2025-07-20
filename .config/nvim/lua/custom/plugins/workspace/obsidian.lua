@@ -9,7 +9,8 @@ local opts = {
     },
   },
 
-  notes_subdir = 'Efforts/On',
+  -- notes_subdir = 'Efforts/On',
+  notes_subdir = 'Atlas/Notes/Ideas',
   new_notes_location = 'notes_subdir',
   disable_frontmatter = true,
 

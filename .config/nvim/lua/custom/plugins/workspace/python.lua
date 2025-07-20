@@ -6,48 +6,48 @@ return {
     -- lazy=false,
   },
 
-  {
-    'GCBallesteros/NotebookNavigator.nvim',
-    ft = 'py',
-    keys = {
-      {
-        ']j',
-        function()
-          require('notebook-navigator').move_cell 'd'
-        end,
-      },
-      {
-        '[j',
-        function()
-          require('notebook-navigator').move_cell 'u'
-        end,
-      },
-      {
-        '<leader>X',
-        "<cmd>lua require('notebook-navigator').run_cell()<cr>",
-        desc = 'Run Cell',
-        ft = 'ipynb',
-      },
-      {
-        '<leader>x',
-        "<cmd>lua require('notebook-navigator').run_and_move()<cr>",
-        desc = 'Run Cell and Move',
-        ft = 'ipynb',
-      },
-    },
-    dependencies = {
-      'echasnovski/mini.comment',
-      'hkupty/iron.nvim', -- repl provider
-      -- "akinsho/toggleterm.nvim", -- alternative repl provider
-      -- "benlubas/molten-nvim", -- alternative repl provider
-      'anuvyklack/hydra.nvim',
-    },
-    event = 'VeryLazy',
-    config = function()
-      local nn = require 'notebook-navigator'
-      nn.setup { activate_hydra_keys = '<leader>h' }
-    end,
-  },
+  -- {
+  --   'GCBallesteros/NotebookNavigator.nvim',
+  --   ft = 'py',
+  --   keys = {
+  --     {
+  --       ']j',
+  --       function()
+  --         require('notebook-navigator').move_cell 'd'
+  --       end,
+  --     },
+  --     {
+  --       '[j',
+  --       function()
+  --         require('notebook-navigator').move_cell 'u'
+  --       end,
+  --     },
+  --     {
+  --       '<leader>X',
+  --       "<cmd>lua require('notebook-navigator').run_cell()<cr>",
+  --       desc = 'Run Cell',
+  --       ft = 'ipynb',
+  --     },
+  --     {
+  --       '<leader>x',
+  --       "<cmd>lua require('notebook-navigator').run_and_move()<cr>",
+  --       desc = 'Run Cell and Move',
+  --       ft = 'ipynb',
+  --     },
+  --   },
+  --   dependencies = {
+  --     'echasnovski/mini.comment',
+  --     'hkupty/iron.nvim', -- repl provider
+  --     -- "akinsho/toggleterm.nvim", -- alternative repl provider
+  --     -- "benlubas/molten-nvim", -- alternative repl provider
+  --     'anuvyklack/hydra.nvim',
+  --   },
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     local nn = require 'notebook-navigator'
+  --     nn.setup { activate_hydra_keys = '<leader>h' }
+  --   end,
+  -- },
 
   {
     'hkupty/iron.nvim',
