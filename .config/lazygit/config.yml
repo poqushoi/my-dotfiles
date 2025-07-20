@@ -4,3 +4,9 @@ git:
   log:
     # displays the whole git graph by default in the commits view (equivalent to passing the `--all` argument to `git log`)
     showWholeGraph: true
+
+gui:
+  authorColors:
+    'ti3c2': 'green'
+    'Ilia Tambovtsev': 'green'
+    '*': 'cyan'
